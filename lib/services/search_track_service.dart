@@ -1,3 +1,4 @@
+import 'package:ff/services/keys.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> SearchArtistService(String artistName) async {
@@ -7,7 +8,7 @@ Future<void> SearchArtistService(String artistName) async {
   var headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer BQDz1ViPYbh3LNyyQFvcCsw2_AoKtSfYiCKd_aDgyPA8Ze6eqxpXjHJQjxQtZG4EJsMgAJMX5NFCReTN-IBl_vBI3J6ZiShP_HBWjOaW4PnstEYLvhyCbEdb0QC9C13OmnaAcMp6dx-tj_KiUpz7zKPNLd_n-4wDH54rGXxpph6is7a-L6A6K9MyPzbk5aO0r8JDa2oNPzx5WmdKt1YOKFYuqFeppLZC9SR5ydOCYIaExoR3oyzsxMT2bc5Y5dpsVHtjXl1gQyK8BCOkr0gzqxD4TdTZrGuJMNzKW5hQ_lkU',
+    'Authorization': 'Bearer '+token,
   };
 
   var params = {

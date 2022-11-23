@@ -1,9 +1,10 @@
-import 'package:ff/models/categories_model.dart';
+
 import 'package:ff/providers/get_categories_provider.dart';
 import 'package:ff/providers/get_new_realese_provider.dart';
+import 'package:ff/services/refresh_token_service.dart';
 import 'package:ff/services/search_artist_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
