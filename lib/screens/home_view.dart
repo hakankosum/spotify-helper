@@ -1,7 +1,8 @@
-import 'package:ff/providers/get_categories_provider.dart';
-import 'package:ff/providers/get_new_realese_provider.dart';
+import 'package:ff/providers/categories_provider.dart';
+import 'package:ff/providers/new_realese_provider.dart';
 import 'package:ff/screens/searched_item.dart';
-import 'package:ff/services/refresh_token_service.dart';
+import 'package:ff/services/get_top_tracks.dart';
+
 import 'package:ff/services/search_artist_service.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../models/search_artist_model.dart';
+import '../services/category_playlist_service.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -26,18 +28,12 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    newRealeseSong = Provider.of<GetNewRealeseProvider>(context, listen: true);
-    categories = Provider.of<GetCategoriesProvider>(context, listen: true);
+    newRealeseSong = Provider.of<GetNewRealeseProvider>(context, listen: false);
+    categories = Provider.of<GetCategoriesProvider>(context, listen: false);
     newRealeseSong!.getNewRealeseSong();
     categories!.getCategories();
 
-    super.didChangeDependencies();
+    super.initState();
   }
 
   TextEditingController mycontroller = TextEditingController();
@@ -88,30 +84,36 @@ class _HomeViewState extends State<HomeView> {
                                               itemCount: searchedArtist!
                                                   .artists!.limit!,
                                               itemBuilder: (context, index) =>
-                                                  SearchedItem(
-                                                      artistName:
-                                                          searchedArtist!
-                                                              .artists!
-                                                              .items![index]
-                                                              .name!,
-                                                      imageUri: searchedArtist!
-                                                                  .artists!
-                                                                  .items![index]
-                                                                  .images![0]
-                                                                   != null
-                                                             
-                                                          ? searchedArtist!
-                                                              .artists!
-                                                              .items![index]
-                                                              .images![0]
-                                                              .url!
-                                                          : "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
-                                                      totalFollower:
-                                                          searchedArtist!
-                                                              .artists!
-                                                              .items![index]
-                                                              .followers!
-                                                              .total!),
+                                                  InkWell(
+                                                onTap: () {
+                                                  print(searchedArtist!.artists!
+                                                      .items![index].id!);
+                                                },
+                                                child: SearchedItem(
+                                                    id: searchedArtist!.artists!
+                                                        .items![index].id!,
+                                                    artistName: searchedArtist!
+                                                        .artists!
+                                                        .items![index]
+                                                        .name!,
+                                                    imageUri: searchedArtist!
+                                                            .artists!
+                                                            .items![index]
+                                                            .images!
+                                                            .isNotEmpty
+                                                        ? searchedArtist!
+                                                            .artists!
+                                                            .items![index]
+                                                            .images![0]
+                                                            .url!
+                                                        : "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
+                                                    totalFollower:
+                                                        searchedArtist!
+                                                            .artists!
+                                                            .items![index]
+                                                            .followers!
+                                                            .total!),
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -136,8 +138,8 @@ class _HomeViewState extends State<HomeView> {
               Consumer(
                 builder: (BuildContext context, GetNewRealeseProvider value,
                     widget) {
-                  return value.new_realese_song == null
-                      ? CircularProgressIndicator()
+                  return newRealeseSong!.is_new_realese_song_loaded == false
+                      ? const CircularProgressIndicator()
                       : Container(
                           height: 20.h,
                           width: 100.w,
@@ -175,25 +177,29 @@ class _HomeViewState extends State<HomeView> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2),
                         itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.all(1.h),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    image: NetworkImage(categories!
-                                        .categories!
-                                        .categories!
-                                        .items![index]
-                                        .icons![0]
-                                        .url!))),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 80),
-                              child: Center(
-                                  child: Text(
-                                categories!.categories!.categories!
-                                    .items![index].name!,
-                                style: TextStyle(color: Colors.white),
-                              )),
+                          return InkWell(
+                            onTap: () => CategoryPlaylistsService(categories!
+                                .categories!.categories!.items![index].id!),
+                            child: Container(
+                              margin: EdgeInsets.all(1.h),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: NetworkImage(categories!
+                                          .categories!
+                                          .categories!
+                                          .items![index]
+                                          .icons![0]
+                                          .url!))),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 80),
+                                child: Center(
+                                    child: Text(
+                                  categories!.categories!.categories!
+                                      .items![index].name!,
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                              ),
                             ),
                           );
                         },

@@ -13,10 +13,11 @@ class GetNewRealeseProvider extends ChangeNotifier{
   getNewRealeseSong () async {
     new_realese_song = await GetNewRealeseService();
     if (new_realese_song.runtimeType==GetNewRealeseModel){
-      is_new_realese_song_loaded=true;      
+      is_new_realese_song_loaded=true;  
+      notifyListeners();    
     }
     else{
-      notifyListeners();
+      
       
     }
     

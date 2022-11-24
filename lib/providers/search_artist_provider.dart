@@ -12,7 +12,8 @@ class  SearchArtistProvider extends ChangeNotifier{
   getArtistList () async {
     searchArtist =await SearchArtistService(artistName!);
     is_loaded=true;
+    notifyListeners();
 
   }
-  notifyListeners();
+  
 }
