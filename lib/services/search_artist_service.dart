@@ -20,7 +20,7 @@ Future<SearchArtistModel?> SearchArtistService(String artistName) async {
     'type': queryType,
     'market': marketCountry,
     'limit': queryItemLimit,
-    'offset': '5',
+    'offset': '0',
   };
   var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
 

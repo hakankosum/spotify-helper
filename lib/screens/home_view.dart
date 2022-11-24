@@ -76,7 +76,9 @@ class _HomeViewState extends State<HomeView> {
                                       duration: Duration(seconds: 120),
                                       content: Column(
                                         children: [
-                                          SizedBox(height: 2.h,),
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
                                           Icon(Icons.line_weight),
                                           Container(
                                             height: searchedArtist!
@@ -93,10 +95,17 @@ class _HomeViewState extends State<HomeView> {
                                                               .items![index]
                                                               .name!,
                                                       imageUri: searchedArtist!
-                                                          .artists!
-                                                          .items![index]
-                                                          .images![1]
-                                                          .url!,
+                                                                  .artists!
+                                                                  .items![index]
+                                                                  .images![0]
+                                                                   != null
+                                                             
+                                                          ? searchedArtist!
+                                                              .artists!
+                                                              .items![index]
+                                                              .images![0]
+                                                              .url!
+                                                          : "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
                                                       totalFollower:
                                                           searchedArtist!
                                                               .artists!
@@ -127,7 +136,6 @@ class _HomeViewState extends State<HomeView> {
               Consumer(
                 builder: (BuildContext context, GetNewRealeseProvider value,
                     widget) {
-                      
                   return value.new_realese_song == null
                       ? CircularProgressIndicator()
                       : Container(
