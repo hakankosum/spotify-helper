@@ -16,7 +16,7 @@ Future<dynamic> GetCategoriesService() async {
   var params = {
     'country': 'TR',
     'limit': '8',
-    'offset': '8',
+    'offset': '0',
   };
   var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
 

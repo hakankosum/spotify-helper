@@ -1,6 +1,6 @@
-
 import 'package:ff/providers/get_categories_provider.dart';
 import 'package:ff/providers/get_new_realese_provider.dart';
+import 'package:ff/screens/searched_item.dart';
 import 'package:ff/services/refresh_token_service.dart';
 import 'package:ff/services/search_artist_service.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
+import '../models/search_artist_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -20,13 +22,22 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   GetNewRealeseProvider? newRealeseSong;
   GetCategoriesProvider? categories;
+  SearchArtistModel? searchedArtist;
+
   @override
   void initState() {
     super.initState();
-    newRealeseSong = Provider.of<GetNewRealeseProvider>(context, listen: false);
-    categories = Provider.of<GetCategoriesProvider>(context, listen: false);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    newRealeseSong = Provider.of<GetNewRealeseProvider>(context, listen: true);
+    categories = Provider.of<GetCategoriesProvider>(context, listen: true);
     newRealeseSong!.getNewRealeseSong();
     categories!.getCategories();
+
+    super.didChangeDependencies();
   }
 
   TextEditingController mycontroller = TextEditingController();
@@ -50,12 +61,53 @@ class _HomeViewState extends State<HomeView> {
                 child: TextField(
                   controller: mycontroller,
                   decoration: InputDecoration(
+                    hintText: "Search artist or track",
                     border: InputBorder.none,
                     prefixIconColor: Colors.black,
                     prefixIcon: InkWell(
-                        onTap: () {
+                        onTap: () async {
                           if (mycontroller.text.isNotEmpty) {
-                            SearchArtistService(mycontroller.text);
+                            searchedArtist =
+                                await SearchArtistService(mycontroller.text);
+                            if (searchedArtist!.artists!.limit! > 0) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                      backgroundColor: Colors.white,
+                                      duration: Duration(seconds: 120),
+                                      content: Column(
+                                        children: [
+                                          SizedBox(height: 2.h,),
+                                          Icon(Icons.line_weight),
+                                          Container(
+                                            height: searchedArtist!
+                                                    .artists!.limit! *
+                                                9.h,
+                                            child: ListView.builder(
+                                              itemCount: searchedArtist!
+                                                  .artists!.limit!,
+                                              itemBuilder: (context, index) =>
+                                                  SearchedItem(
+                                                      artistName:
+                                                          searchedArtist!
+                                                              .artists!
+                                                              .items![index]
+                                                              .name!,
+                                                      imageUri: searchedArtist!
+                                                          .artists!
+                                                          .items![index]
+                                                          .images![1]
+                                                          .url!,
+                                                      totalFollower:
+                                                          searchedArtist!
+                                                              .artists!
+                                                              .items![index]
+                                                              .followers!
+                                                              .total!),
+                                            ),
+                                          ),
+                                        ],
+                                      )));
+                            }
                           } else {
                             print("boş text aratıyorsun!");
                           }
@@ -73,10 +125,12 @@ class _HomeViewState extends State<HomeView> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               Consumer(
-                builder:
-                    (BuildContext context, GetNewRealeseProvider value, widget) {
-                  return newRealeseSong!.is_new_realese_song_loaded == true
-                      ? Container(
+                builder: (BuildContext context, GetNewRealeseProvider value,
+                    widget) {
+                      
+                  return value.new_realese_song == null
+                      ? CircularProgressIndicator()
+                      : Container(
                           height: 20.h,
                           width: 100.w,
                           decoration: BoxDecoration(
@@ -89,8 +143,7 @@ class _HomeViewState extends State<HomeView> {
                                       .images![0]
                                       .url!),
                                   fit: BoxFit.fill)),
-                        )
-                      : Container();
+                        );
                 },
               ),
               const Text(
@@ -101,22 +154,23 @@ class _HomeViewState extends State<HomeView> {
                 builder: (context, GetCategoriesProvider value, child) {
                   if (categories!.is_categories_loaded == true) {
                     return SizedBox(
-        
-                      height: 22.h*categories!.categories!.categories!.items!.length/2,
-                      
+                      height: 22.h *
+                          categories!.categories!.categories!.items!.length /
+                          2,
                       child: GridView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: const EdgeInsets.all(0),
                         itemCount:
                             categories!.categories!.categories!.items!.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
                         itemBuilder: (context, index) {
                           return Container(
                             margin: EdgeInsets.all(1.h),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
                                     image: NetworkImage(categories!
                                         .categories!
@@ -125,11 +179,11 @@ class _HomeViewState extends State<HomeView> {
                                         .icons![0]
                                         .url!))),
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 50),
+                              padding: const EdgeInsets.only(top: 80),
                               child: Center(
                                   child: Text(
-                                categories!
-                                    .categories!.categories!.items![index].name!,
+                                categories!.categories!.categories!
+                                    .items![index].name!,
                                 style: TextStyle(color: Colors.white),
                               )),
                             ),

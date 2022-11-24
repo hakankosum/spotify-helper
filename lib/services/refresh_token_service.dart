@@ -6,7 +6,7 @@ void RefreshTokenService() async {
   const String CODE="3144c3fuoc42jgdwd6ivtbbgn52e";
 
 
-  var url = Uri.parse('http://application/x-www-form-urlencoded --data “code='+CODE);
+  var url = Uri.parse('https://application/x-www-form-urlencoded --data “code=$CODE');
   var res = await http.post(url);
   if (res.statusCode != 200) throw Exception('http.post error: statusCode= ${res.statusCode}');
   print(res.body);

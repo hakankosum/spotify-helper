@@ -16,7 +16,8 @@ class GetCategoriesProvider extends ChangeNotifier{
     categories = await GetCategoriesService();
     if (categories.runtimeType==CategoriesModel){
       is_categories_loaded=true;
-      print(categories!.categories!.items![1].name);      
+      notifyListeners();
+    
     }
     else{
       
