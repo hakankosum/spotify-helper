@@ -16,12 +16,13 @@ class GetCategoriesProvider extends ChangeNotifier{
     categories = await GetCategoriesService();
     if (categories.runtimeType==CategoriesModel){
       is_categories_loaded=true;
-      notifyListeners();
+      
     
     }
     else{
       
     }
+    notifyListeners();
     
     
   }
