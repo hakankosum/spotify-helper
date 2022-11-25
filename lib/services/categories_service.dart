@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:ff/models/categories_model.dart';
-import 'package:ff/models/new_realese_model.dart';
 import 'package:ff/services/keys.dart';
 import 'package:http/http.dart' as http;
 
