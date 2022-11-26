@@ -1,11 +1,10 @@
 import 'package:ff/providers/categories_provider.dart';
 import 'package:ff/providers/new_realese_provider.dart';
+import 'package:ff/providers/profile_detail_provider.dart';
+import 'package:ff/providers/profile_playlists_provider.dart';
 import 'package:ff/providers/top_tracks_provider.dart';
-import 'package:ff/screens/bottom_nav.dart';
 import 'package:ff/screens/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -14,6 +13,8 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (context) => GetNewRealeseProvider()),
         ChangeNotifierProvider(create: (context) => GetCategoriesProvider()),
         ChangeNotifierProvider(create: (context) => TopTracksProvider()),
+        ChangeNotifierProvider(create: (context) => ProfilePlaylistsProvider(),),
+        ChangeNotifierProvider(create: (context) => ProfileDetailProvider(),)
       ],
       child: MyApp(),
     ));

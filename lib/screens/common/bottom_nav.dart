@@ -1,4 +1,5 @@
 import 'package:ff/screens/home_view.dart';
+import 'package:ff/screens/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -30,7 +31,7 @@ class myBottomNav extends StatelessWidget {
                     IconButton(
                         onPressed:() {
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeView()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView()));
                         },
                         icon: SvgPicture.asset("assets/ic_profile.svg")),
                   ],

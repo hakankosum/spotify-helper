@@ -1,7 +1,7 @@
 import 'package:ff/providers/categories_provider.dart';
 import 'package:ff/providers/new_realese_provider.dart';
 import 'package:ff/screens/animations/opening_animation.dart';
-import 'package:ff/screens/searched_item.dart';
+import 'package:ff/screens/common/searched_item.dart';
 
 import 'package:ff/services/search_artist_service.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../models/search_artist_model.dart';
 import '../services/category_playlist_service.dart';
-import 'bottom_nav.dart';
+import 'common/bottom_nav.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
