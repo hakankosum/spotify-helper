@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 Future<SearchArtistModel?> SearchArtistService(String artistName) async {
   SearchArtistModel data;
   String marketCountry="TR";
-  int queryItemLimit=10;
+  int queryItemLimit=7;
   String queryType="artist"; //query selection (must be "artist" or "track")
   var headers = {
     'Accept': 'application/json',

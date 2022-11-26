@@ -10,7 +10,7 @@ Future<void> CategoryPlaylistsService(String categoryId) async {
 
   var params = {
     'country': 'TR',
-    'limit': '5',
+    'limit': '11',
     'offset': '0',
   };
   var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
