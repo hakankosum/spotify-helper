@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:ff/services/keys.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,8 +16,8 @@ Future<void> CategoryPlaylistsService(String categoryId) async {
   };
   var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
 
-  var url = Uri.parse('https://api.spotify.com/v1/browse/categories/$categoryId/playlists?$query');
-  var res = await http.get(url, headers: headers);
+  var url = 'https://api.spotify.com/v1/browse/categories/$categoryId/playlists?$query';
+  var res = await Dio().get(url, options: Options(headers: headers));
   if (res.statusCode != 200) throw Exception('http.get error: statusCode= ${res.statusCode}');
-  print(res.body);
+  print(res.data);
 }

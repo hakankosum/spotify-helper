@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ff/models/profile_playlists_model.dart';
 import 'package:ff/services/keys.dart';
 import 'package:http/http.dart' as http;
@@ -16,10 +17,10 @@ Future<ProfileDetailModel> ProfileDetailService() async {
     'Authorization': 'Bearer $token',
   };
 
-  var url = Uri.parse('https://api.spotify.com/v1/users/00f732s8mb75vdxjwp91mc8j6');
-  var res = await http.get(url, headers: headers);
+  var url = 'https://api.spotify.com/v1/users/00f732s8mb75vdxjwp91mc8j6';
+  var res = await Dio().get(url, options: Options(headers: headers));
   if (res.statusCode != 200) throw Exception('http.get error: statusCode= ${res.statusCode}');
-  print(res.body);
-  data = ProfileDetailModel.fromJson(jsonDecode(res.body));
+  print(res.data);
+  data = ProfileDetailModel.fromJson((res.data));
   return data;
 }

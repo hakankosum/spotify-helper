@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ff/models/top_tracks_model.dart';
 import 'package:ff/services/keys.dart';
 import 'package:http/http.dart' as http;
@@ -17,10 +18,9 @@ Future<TopTracksModel> GetTopTracksService(String id) async {
   };
   var query = params.entries.map((p) => '${p.key}=${p.value}').join('&');
 
-  var url = Uri.parse('https://api.spotify.com/v1/artists/$id/top-tracks?$query');
-  var res = await http.get(url, headers: headers);
+  var url = 'https://api.spotify.com/v1/artists/$id/top-tracks?$query';
+  var res = await Dio().get(url, options: Options(headers: headers));
   if (res.statusCode != 200) throw Exception('http.get error: statusCode= ${res.statusCode}');
-  print(res.body);
-  data = TopTracksModel.fromJson(jsonDecode(res.body));
+  data = TopTracksModel.fromJson(res.data);
   return data;
 }

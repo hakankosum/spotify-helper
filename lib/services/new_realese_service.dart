@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ff/models/new_realese_model.dart';
 import 'package:ff/services/keys.dart';
 import 'package:http/http.dart' as http;
@@ -21,10 +22,10 @@ Future<GetNewRealeseModel?> GetNewRealeseService() async {
   try {
     GetNewRealeseModel data;
     var url =
-        Uri.parse('https://api.spotify.com/v1/browse/new-releases?$query');
-    var res = await http.get(url, headers: headers);
+        'https://api.spotify.com/v1/browse/new-releases?$query';
+    var res = await Dio().get(url, options: Options(headers: headers));
 
-    data = GetNewRealeseModel.fromJson(jsonDecode(res.body));
+    data = GetNewRealeseModel.fromJson(res.data);
     return data;
   } catch (e) {
     print("new realese hata");

@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ff/models/categories_model.dart';
 import 'package:ff/services/keys.dart';
 import 'package:http/http.dart' as http;
 
-Future<dynamic> GetCategoriesService() async {
+Future<CategoriesModel?> GetCategoriesService() async {
   var headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -22,12 +23,14 @@ Future<dynamic> GetCategoriesService() async {
   try {
     CategoriesModel data;
     var url =
-        Uri.parse('https://api.spotify.com/v1/browse/categories?$query');
-    var res = await http.get(url, headers: headers);
+        'https://api.spotify.com/v1/browse/categories?$query';
+    var res = await Dio().get(url,options: Options(headers: headers));
 
-    data = CategoriesModel.fromJson(jsonDecode(res.body));
+
+    data = CategoriesModel.fromJson(res.data);
     return data;
   } catch (e) {
-    return e;
+    print(e.toString());
+    
   }
 }
