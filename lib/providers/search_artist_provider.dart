@@ -7,13 +7,19 @@ import 'package:flutter/material.dart';
 class  SearchArtistProvider extends ChangeNotifier{
   SearchArtistModel? searchArtist;
   bool isLoaded=false;
-  String? artistName;
+  
+  
 
-  getArtistList () async {
+  getArtistList (String? artistName) async {
+    
     searchArtist =await SearchArtistService(artistName!);
+    print("done");
+
     isLoaded=true;
+    print(isLoaded);
     notifyListeners();
 
   }
+
   
 }

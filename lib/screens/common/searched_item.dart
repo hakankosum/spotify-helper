@@ -24,7 +24,7 @@ class _SearchedItemState extends State<SearchedItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -39,13 +39,13 @@ class _SearchedItemState extends State<SearchedItem> {
             borderRadius: BorderRadius.circular(10), color: Colors.grey),
         child: Row(
           children: [
-            SizedBox(width: 2.w),
+            SizedBox(width: 6.w),
             Container(
               height: 7.h,
               width: 7.h,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(image: NetworkImage(widget.imageUri))),
+                  image: DecorationImage(fit: BoxFit.fill,image: NetworkImage(widget.imageUri))),
             ),
             SizedBox(width: 2.w),
             Expanded(child: Text(widget.artistName)),
@@ -57,7 +57,7 @@ class _SearchedItemState extends State<SearchedItem> {
                 Text(widget.totalFollower.toString()),
               ],
             ),
-            SizedBox(width: 4.w),
+            SizedBox(width: 6.w),
           ],
         ),
       ),

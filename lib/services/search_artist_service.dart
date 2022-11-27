@@ -29,7 +29,7 @@ Future<SearchArtistModel?> SearchArtistService(String artistName) async {
   print(res.statusCode);
   if (res.statusCode != 200) throw Exception('http.get error: statusCode= ${res.statusCode}');
   data = SearchArtistModel.fromJson(jsonDecode(res.body));
-  print(data.toJson());
+
 
   return (data);
 }

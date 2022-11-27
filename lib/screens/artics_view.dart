@@ -41,7 +41,7 @@ class _ArticsPageViewState extends State<ArticsPageView> {
                       height: 40.h,
                       width: 100.w,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(70),
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(70),bottomRight: Radius.circular(70)),
                           image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(topTracks!

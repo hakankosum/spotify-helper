@@ -1,7 +1,9 @@
+import 'package:ff/providers/bottom_nav_provider.dart';
 import 'package:ff/providers/categories_provider.dart';
 import 'package:ff/providers/new_realese_provider.dart';
 import 'package:ff/providers/profile_detail_provider.dart';
 import 'package:ff/providers/profile_playlists_provider.dart';
+import 'package:ff/providers/search_artist_provider.dart';
 import 'package:ff/providers/top_tracks_provider.dart';
 import 'package:ff/screens/home_view.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,10 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(create: (context) => GetCategoriesProvider()),
         ChangeNotifierProvider(create: (context) => TopTracksProvider()),
         ChangeNotifierProvider(create: (context) => ProfilePlaylistsProvider(),),
-        ChangeNotifierProvider(create: (context) => ProfileDetailProvider(),)
+        ChangeNotifierProvider(create: (context) => ProfileDetailProvider(),),
+        ChangeNotifierProvider(create: (context) => BottomNavProvider(),),
+        ChangeNotifierProvider(create: (context) => SearchArtistProvider(),)
+
       ],
       child: MyApp(),
     ));

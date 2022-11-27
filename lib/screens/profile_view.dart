@@ -1,5 +1,6 @@
 import 'package:ff/providers/profile_detail_provider.dart';
 import 'package:ff/providers/profile_playlists_provider.dart';
+import 'package:ff/screens/common/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -30,16 +31,17 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: myBottomNav(),
       backgroundColor: const Color.fromARGB(255, 238, 237, 237),
       body: Consumer(
         builder: (BuildContext context, ProfilePlaylistsProvider value,
             Widget? child) {
           return detail!.isLoaded == true
               ? SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
                         height: 40.h,
                         padding: const EdgeInsets.all(30),
                         decoration: BoxDecoration(
@@ -53,16 +55,11 @@ class _ProfileViewState extends State<ProfileView> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               // ignore: prefer_const_literals_to_create_immutables
                               children: [
-                                Container(
-                                    height: 3.h,
-                                    width: 3.h,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey.shade300),
-                                    child: const Icon(
-                                      Icons.arrow_back_ios_new_sharp,
-                                      size: 20,
-                                    )),
+                                IconButton(icon:
+                                  const Icon(Icons.arrow_back_ios_new_sharp),
+                                  onPressed: () => Navigator.pop(context)
+                                  
+                                ),
                                 const Spacer(),
                                 const Text(
                                   "Profile",
@@ -72,7 +69,8 @@ class _ProfileViewState extends State<ProfileView> {
                                 Container(
                                     height: 3.h,
                                     width: 3.h,
-                                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle),
                                     child: const Icon(
                                       Icons.more_vert,
                                       size: 20,
@@ -82,7 +80,8 @@ class _ProfileViewState extends State<ProfileView> {
                             SizedBox(
                               height: 2.h,
                             ),
-                            Consumer( //profile detail consumer
+                            Consumer(
+                              //profile detail consumer
                               builder: (BuildContext context,
                                   ProfileDetailProvider value, Widget? child) {
                                 return value.isLoaded
@@ -95,7 +94,9 @@ class _ProfileViewState extends State<ProfileView> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     image: NetworkImage(value
-                                                        .data!.images![0].url!))),
+                                                        .data!
+                                                        .images![0]
+                                                        .url!))),
                                           ),
                                           SizedBox(
                                             height: 2.h,
@@ -108,7 +109,8 @@ class _ProfileViewState extends State<ProfileView> {
                                           ),
                                           SizedBox(height: 2.h),
                                           Text(
-                                            value.data!.followers!.total.toString(),
+                                            value.data!.followers!.total
+                                                .toString(),
                                             style: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold),
@@ -117,7 +119,8 @@ class _ProfileViewState extends State<ProfileView> {
                                           const Text(
                                             "Followers",
                                             style: TextStyle(
-                                                color: Colors.grey, fontSize: 14),
+                                                color: Colors.grey,
+                                                fontSize: 14),
                                           )
                                         ],
                                       )
@@ -128,41 +131,84 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 3.h,right: 5.w,left: 5.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("PUBLIC PLAYLISTS",style: TextStyle(fontSize: 22,fontWeight:FontWeight.w700),),
-                            SizedBox(
-                              height: 60.h,
-                              child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemCount: playlist!.profileData!.items!.length,
-                                itemBuilder:(context, index) {
-                                  return Container(
-                                    margin: EdgeInsets.only(bottom: 2.h),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 60,
-                                          width: 60 ,
-                                          decoration:BoxDecoration(borderRadius: BorderRadius.circular(14),image: DecorationImage(image: NetworkImage(playlist!.profileData!.items![index].images![0].url!)))
-                                                                                                       
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                              },),
-                            )
-                          ],
-                        ))
-                  ],
-                ),
-              )
-              : const Text("bekleniyor...");
+                          margin:
+                              EdgeInsets.only(top: 3.h, right: 5.w, left: 5.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "PUBLIC PLAYLISTS",
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.w700),
+                              ),
+                              SizedBox(
+                                height: playlist!.profileData!.items!.length*10.h+30,
+                                child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount:
+                                      playlist!.profileData!.items!.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      margin: EdgeInsets.only(bottom: 2.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                              height: 90,
+                                              width: 90,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(14),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          playlist!
+                                                              .profileData!
+                                                              .items![index]
+                                                              .images![0]
+                                                              .url!)))),
+                                          SizedBox(width: 5.w),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                playlist!.profileData!
+                                                    .items![index].name!,
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              SizedBox(height: 1.h,),
+                                              Text(
+                                                "${playlist!.profileData!
+                                                    .items![index].tracks!.total} tracks",
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              )
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          const Icon(Icons.more_horiz,color: Colors.grey,),
+                                          SizedBox(width: 5.w),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                            ],
+                          )),
+
+                    ],
+                  ),
+                )
+              : const Center(child: CircularProgressIndicator());
         },
       ),
     );

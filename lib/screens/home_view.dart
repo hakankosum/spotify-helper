@@ -1,17 +1,14 @@
 import 'package:ff/providers/categories_provider.dart';
 import 'package:ff/providers/new_realese_provider.dart';
 import 'package:ff/screens/animations/opening_animation.dart';
-import 'package:ff/screens/common/searched_item.dart';
-
+import 'package:ff/screens/common/app_bar.dart';
 import 'package:ff/services/search_artist_service.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../models/search_artist_model.dart';
 import '../services/category_playlist_service.dart';
 import 'common/bottom_nav.dart';
@@ -45,8 +42,8 @@ class _HomeViewState extends State<HomeView> {
       builder:
           (BuildContext context, GetNewRealeseProvider value, Widget? child) {
         return Scaffold(
-          bottomNavigationBar: const myBottomNav(),
           
+          bottomNavigationBar: const myBottomNav(),
           body: (newRealeseSong!.isNewSongLoaded == false)
               ? OpeningAnimationWidget()
               : Container(
@@ -58,104 +55,8 @@ class _HomeViewState extends State<HomeView> {
                       runSpacing: 20,
                       crossAxisAlignment: WrapCrossAlignment.start,
                       children: [
-                        Container(
-                          height: 4.h,
-                          width: 100.w,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextField(
-                            controller: mycontroller,
-                            decoration: InputDecoration(
-                              hintText: "Search artist or track",
-                              border: InputBorder.none,
-                              prefixIconColor: Colors.black,
-                              prefixIcon: InkWell(
-                                  onTap: () async {
-                                    if (mycontroller.text.isNotEmpty) {
-                                      searchedArtist =
-                                          await SearchArtistService(
-                                              mycontroller.text);
-                                      if (searchedArtist!.artists!.limit! > 0) {
-                                        // ignore: use_build_context_synchronously
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                backgroundColor: Colors.white,
-                                                duration:
-                                                    Duration(seconds: 120),
-                                                content: Column(
-                                                  children: [
-                                                    SizedBox(height:10.h),
-                                                    Icon(Icons.drag_handle),
-                                                    Container(
-                                                      height: searchedArtist!
-                                                              .artists!.limit! *
-                                                          10.h,
-                                                      child: ListView.builder(
-                                                        itemCount:
-                                                            searchedArtist!
-                                                                .artists!
-                                                                .limit!,
-                                                        itemBuilder:
-                                                            (context, index) =>
-                                                                InkWell(
-                                                          onTap: () {
-                                                            print(
-                                                                searchedArtist!
-                                                                    .artists!
-                                                                    .items![
-                                                                        index]
-                                                                    .id!);
-                                                          },
-                                                          child: SearchedItem(
-                                                              id: searchedArtist!
-                                                                  .artists!
-                                                                  .items![index]
-                                                                  .id!,
-                                                              artistName:
-                                                                  searchedArtist!
-                                                                      .artists!
-                                                                      .items![
-                                                                          index]
-                                                                      .name!,
-                                                              imageUri: searchedArtist!
-                                                                      .artists!
-                                                                      .items![
-                                                                          index]
-                                                                      .images!
-                                                                      .isNotEmpty
-                                                                  ? searchedArtist!
-                                                                      .artists!
-                                                                      .items![
-                                                                          index]
-                                                                      .images![
-                                                                          0]
-                                                                      .url!
-                                                                  : "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734",
-                                                              totalFollower:
-                                                                  searchedArtist!
-                                                                      .artists!
-                                                                      .items![
-                                                                          index]
-                                                                      .followers!
-                                                                      .total!),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )));
-                                      }
-                                    } else {
-                                      print("boş text aratıyorsun!");
-                                    }
-                                    ;
-                                  },
-                                  child: const Icon(
-                                    Icons.search,
-                                    size: 24,
-                                  )),
-                            ),
-                          ),
-                        ),
+                        SearchBar(),
+                        
                         const Text(
                           "New Realeses",
                           style: TextStyle(
@@ -215,9 +116,10 @@ class _HomeViewState extends State<HomeView> {
                                                           child: Container(
                                                               height: 4.h,
                                                               width: 4.h,
-                                                              decoration:  BoxDecoration(
+                                                              decoration: BoxDecoration(
                                                                   color: Colors
-                                                                      .grey.shade300,
+                                                                      .grey
+                                                                      .shade300,
                                                                   shape: BoxShape
                                                                       .circle),
                                                               child: IconButton(
@@ -230,12 +132,14 @@ class _HomeViewState extends State<HomeView> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(left: 3.w),
+                                                  margin: EdgeInsets.only(
+                                                      left: 3.w),
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
-                                                        
                                                         newRealeseSong!
                                                             .new_realese_song!
                                                             .albums!
@@ -254,8 +158,8 @@ class _HomeViewState extends State<HomeView> {
                                                             .items![index]
                                                             .artists![0]
                                                             .name!,
-                                                        style:
-                                                            const TextStyle(fontSize: 14),
+                                                        style: const TextStyle(
+                                                            fontSize: 14),
                                                       ),
                                                     ],
                                                   ),
@@ -282,8 +186,6 @@ class _HomeViewState extends State<HomeView> {
                                         .categories!.categories!.items!.length /
                                     2,
                                 child: GridView.builder(
-                                  
-                                  
                                   physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   padding: const EdgeInsets.all(0),
@@ -300,8 +202,6 @@ class _HomeViewState extends State<HomeView> {
                                           categories!.categories!.categories!
                                               .items![index].id!),
                                       child: Container(
-                                        
-                                        
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
