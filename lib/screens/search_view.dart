@@ -28,7 +28,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: const myBottomNav(),
+        
         body: Container(
           margin: EdgeInsets.only(left: 5.w,right: 5.w),
           child: Column(

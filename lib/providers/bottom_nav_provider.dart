@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class BottomNavProvider extends ChangeNotifier{
   List<Color> colors =[Colors.grey,Colors.grey,Colors.grey,Colors.grey,] ;
+  int isSelected=0;
 
   paintSelectedIcon(index){
     for (var i = 0; i < colors.length; i++) {

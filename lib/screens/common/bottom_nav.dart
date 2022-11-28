@@ -9,66 +9,97 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class myBottomNav extends StatelessWidget {
-  const myBottomNav({super.key});
+class myBottomNav extends StatefulWidget {
+  myBottomNav({super.key});
+
+  @override
+  State<myBottomNav> createState() => _myBottomNavState();
+}
+
+class _myBottomNavState extends State<myBottomNav> {
+  
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 8.h,
+      height: 10.h,
+      width: 90.w,
       child: Consumer(
         builder:
             (BuildContext context, BottomNavProvider value, Widget? child) {
-          return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      value.paintSelectedIcon(0);
-
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomeView()));
-                    },
-                    icon: SvgPicture.asset(
-                      "assets/ic_home.svg",
-                      color: value.colors[0],
-                    )),
-                IconButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      value.paintSelectedIcon(1);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SearchView()));
-                    },
-                    icon: SvgPicture.asset(
-                      "assets/ic_discovery.svg",
-                      color: value.colors[1],
-                    )),
-                IconButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      value.paintSelectedIcon(2);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomeView()));
-                    },
-                    icon: SvgPicture.asset(
-                      "assets/ic_fav.svg",
-                      color: value.colors[2],
-                    )),
-                IconButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      value.paintSelectedIcon(3);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfileView()));
-                    },
-                    icon: SvgPicture.asset(
-                      "assets/ic_profile.svg",
-                      color: value.colors[3],
-                    ))
+          return BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+              
+              items: [
+                BottomNavigationBarItem(
+                  label: "",
+                  icon: SizedBox(
+                    
+                    height: 5.h,
+                    width: 5.h,
+                    child: IconButton(
+                        onPressed: () {
+                          value.paintSelectedIcon(0);
+                          value.isSelected = 0;
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/ic_home.svg",
+                          color: value.colors[0],
+                        )),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  
+                  label: "",
+                  icon: SizedBox(
+                    
+                    height: 5.h,
+                    width: 5.h,
+                    child: IconButton(
+                        onPressed: () {
+                          value.paintSelectedIcon(1);
+                          value.isSelected = 1;
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/ic_discovery.svg",
+                          color: value.colors[1],
+                        )),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: "",
+                  icon: SizedBox(
+                    
+                    height: 5.h,
+                    width: 5.h,
+                    child: IconButton(
+                        onPressed: () {
+                          value.paintSelectedIcon(2);
+                          value.isSelected = 2;
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/ic_fav.svg",
+                          color: value.colors[2],
+                        )),
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: "",
+                  icon: SizedBox(
+                    
+                    height: 5.h,
+                    width: 5.h,
+                    child: IconButton(
+                        onPressed: () {
+                          value.paintSelectedIcon(3);
+                          value.isSelected = 3;
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/ic_profile.svg",
+                          color: value.colors[3],
+                        )),
+                  ),
+                )
               ]);
         },
       ),

@@ -31,7 +31,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: myBottomNav(),
+      
       backgroundColor: const Color.fromARGB(255, 238, 237, 237),
       body: Consumer(
         builder: (BuildContext context, ProfilePlaylistsProvider value,

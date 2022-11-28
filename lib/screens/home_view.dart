@@ -43,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
           (BuildContext context, GetNewRealeseProvider value, Widget? child) {
         return Scaffold(
           
-          bottomNavigationBar: const myBottomNav(),
+          
           body: (newRealeseSong!.isNewSongLoaded == false)
               ? OpeningAnimationWidget()
               : Container(
