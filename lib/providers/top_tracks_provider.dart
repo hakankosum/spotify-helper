@@ -18,10 +18,10 @@ class TopTracksProvider extends ChangeNotifier {
 
     for (var i = 0; i < data!.tracks!.length; i++) {
       duration.add(((int.parse(
-                  (data!.tracks![i].durationMs! / 60000).round().toString())))//calculate min data
+                  (data!.tracks![i].durationMs! ~/ 60000).toString())))//calculate min data
               .toString() +
           ":" +
-          (data!.tracks![i].durationMs! % 60000).toString().substring(0,2));//calculate sec data
+          ((data!.tracks![i].durationMs! % 60000)*0.6).toString().substring(0,2));//calculate sec data
     }
 
     isLoaded = true;
